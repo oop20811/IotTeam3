@@ -9,15 +9,6 @@ const app = express();
 const db = require("./models"); // models/index.js에서 내보낸 db 객체
 const path = require("path");
 
-// 쓰기 권한 확인
-fs.access(".", fs.constants.W_OK, (err) => {
-  if (err) {
-    console.error("No write permission in the current directory:", err);
-  } else {
-    console.log("Write permission is available.");
-  }
-});
-
 // Ensure 'uploads/' directory exists
 if (!fs.existsSync("uploads")) {
   fs.mkdirSync("uploads");
@@ -33,6 +24,7 @@ app.use((req, res, next) => {
   next();
 });
 
+// CORS 설정
 app.use(
   cors({
     origin: "http://localhost:5173", // 프론트엔드 도메인
@@ -41,6 +33,7 @@ app.use(
   })
 );
 
+// 정적 경로 설정
 app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 
 // Routes
@@ -55,15 +48,24 @@ app.get("/", (req, res) => {
 });
 
 // 서버 실행
-db.sequelize
-  .sync({ alter: true })
-  .then(() => {
-    // 'alter: true'로 수정
+const startServer = async () => {
+  try {
+    console.log("Disabling foreign key checks...");
+    await db.sequelize.query("SET FOREIGN_KEY_CHECKS = 0;"); // 외래 키 비활성화
+
+    console.log("Syncing database...");
+    await db.sequelize.sync({ alter: true }); // 동기화
+
+    console.log("Enabling foreign key checks...");
+    await db.sequelize.query("SET FOREIGN_KEY_CHECKS = 1;"); // 외래 키 활성화
+
     const PORT = 8080;
     app.listen(PORT, () => {
       console.log(`Server is running on port ${PORT}.`);
     });
-  })
-  .catch((error) => {
+  } catch (error) {
     console.error("데이터베이스 동기화 중 오류 발생:", error);
-  });
+  }
+};
+
+startServer();
