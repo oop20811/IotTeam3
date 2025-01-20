@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { getSlots } from '../services/slot.service';
 import axios from 'axios';
 
 interface ProductInputProps {
@@ -123,6 +122,7 @@ const InboundPage: React.FC = () => {
       formData.append('productName', productName);
       formData.append('file', selectedFile);
 
+      // 제품 저장 요청
       const response = await axios.post(
         'http://localhost:8080/api/products',
         formData,
@@ -130,6 +130,13 @@ const InboundPage: React.FC = () => {
           headers: { 'Content-Type': 'multipart/form-data' },
         },
       );
+
+      // 로그 저장 요청
+      await axios.post('http://localhost:8080/api/logs', {
+        productName: productName, // productName 필드 추가
+        action: '입고',
+        details: `Slot ${selectedSlot}: ${productName} 입고됨`,
+      });
 
       alert('제품이 성공적으로 저장되었습니다!');
       console.log('응답 데이터:', response.data);
@@ -146,7 +153,15 @@ const InboundPage: React.FC = () => {
 
   return (
     <div className="min-h-screen bg-gray-800 p-6 text-white">
-      <h1 className="mb-6 text-3xl font-bold">Inbound Page</h1>
+      <div className="mb-6 flex items-center justify-between">
+        <h1 className="text-3xl font-bold">Inbound Page</h1>
+        <button
+          onClick={() => navigate('/main')}
+          className="rounded-lg bg-blue-500 px-4 py-2 text-white transition hover:bg-blue-600"
+        >
+          뒤로가기
+        </button>
+      </div>
       <div className="flex flex-col gap-4">
         <ProductInput
           id={0}
