@@ -7,6 +7,7 @@ yarn-error.log*
 
 # 운영 중 생성된 파일
 uploads/
+uploads/
 logs/
 tmp/
 *.log
@@ -25,3 +26,5 @@ build/
 
 # 데이터베이스 설정 파일
 db.config.js
+
+node_modules/
