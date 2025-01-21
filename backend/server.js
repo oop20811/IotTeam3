@@ -50,14 +50,8 @@ app.get("/", (req, res) => {
 // 서버 실행
 const startServer = async () => {
   try {
-    console.log("Disabling foreign key checks...");
-    await db.sequelize.query("SET FOREIGN_KEY_CHECKS = 0;"); // 외래 키 비활성화
-
     console.log("Syncing database...");
     await db.sequelize.sync({ alter: true }); // 동기화
-
-    console.log("Enabling foreign key checks...");
-    await db.sequelize.query("SET FOREIGN_KEY_CHECKS = 1;"); // 외래 키 활성화
 
     const PORT = 8080;
     app.listen(PORT, () => {
