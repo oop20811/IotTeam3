@@ -1,10 +1,11 @@
+// models/index.js
 const fs = require("fs");
 const path = require("path");
 const Sequelize = require("sequelize");
 const basename = path.basename(__filename);
 const env = process.env.NODE_ENV || "development";
 const config = require(__dirname + "/../config/config.json")[env];
-const dbConfig = require("../config/db.config.js"); // dbConfig.js 추가
+const dbConfig = require("../config/db.config.js"); // db.config.js 추가
 const db = {};
 
 // Sequelize 인스턴스 생성
@@ -25,7 +26,7 @@ fs.readdirSync(__dirname)
     return (
       file.indexOf(".") !== 0 && // 숨김 파일 제외
       file !== basename && // 현재 파일 제외
-      file.slice(-3) === ".js" // .js 확장자 파일만
+      (file.slice(-3) === ".js" || file.slice(-3) === ".ts") // .js 또는 .ts 확장자 파일만
     );
   })
   .forEach((file) => {
@@ -52,7 +53,6 @@ db.Sequelize = Sequelize;
   try {
     console.log("Syncing database...");
     await sequelize.sync({ alter: true }); // 데이터베이스 동기화
-
     console.log("Database synchronized successfully!");
   } catch (error) {
     console.error("Failed to synchronize database:", error);

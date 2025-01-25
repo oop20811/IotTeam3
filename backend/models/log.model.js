@@ -9,11 +9,16 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: false,
     },
     details: {
-      type: DataTypes.STRING, // 새 필드 추가
+      type: DataTypes.STRING,
     },
     timestamp: {
       type: DataTypes.DATE,
       defaultValue: DataTypes.NOW,
+    },
+    slotNumber: {
+      // 새 필드 추가
+      type: DataTypes.INTEGER,
+      allowNull: false,
     },
   });
 

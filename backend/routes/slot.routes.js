@@ -1,3 +1,4 @@
+// routes/slots.js
 const express = require("express");
 const router = express.Router();
 const multer = require("multer");
@@ -66,7 +67,10 @@ router.post("/:slotNumber/release", async (req, res) => {
   const slotNumber = req.params.slotNumber;
 
   try {
-    const slot = await Slot.findOne({ where: { slotNumber } });
+    const slot = await Slot.findOne({
+      where: { slotNumber },
+      include: Product,
+    });
     if (!slot) {
       return res
         .status(404)
@@ -79,27 +83,35 @@ router.post("/:slotNumber/release", async (req, res) => {
         .json({ message: "해당 슬롯은 이미 비어 있습니다." });
     }
 
-    const product = await Product.findOne({ where: { slotId: slot.id } });
+    const product = slot.Product;
     if (!product) {
-      return res.status(404).json({ message: "해당 슬롯에 제품이 없습니다." });
+      return res
+        .status(404)
+        .json({ message: "출고할 제품을 찾을 수 없습니다." });
     }
 
-    await Log.create({
+    // 제품 삭제
+    await product.destroy();
+
+    // 슬롯 상태 업데이트
+    await slot.update({ isOccupied: false });
+
+    // 로그 생성 시 slotNumber 포함
+    const newLog = await Log.create({
       productName: product.productName,
       action: "출고",
-      details: `Slot ${slotNumber}: ${product.productName} 출고됨`,
+      slotNumber: slot.slotNumber, // 슬롯 번호 추가
+      timestamp: new Date(),
+      details: `제품 ${product.productName}이 슬롯 ${slot.slotNumber}에서 출고되었습니다.`,
     });
-
-    await slot.update({ isOccupied: false });
-    await product.destroy();
 
     console.log(`Slot ${slotNumber}의 제품이 출고되었습니다.`);
     res
       .status(200)
       .json({ message: `Slot ${slotNumber}의 제품이 출고되었습니다.` });
-  } catch (error) {
-    console.error("출고 중 오류 발생:", error);
-    res.status(500).json({ message: "출고 중 오류가 발생했습니다." });
+  } catch (err) {
+    console.error("출고 실패:", err);
+    res.status(500).json({ message: "출고 실패" });
   }
 });
 
@@ -150,10 +162,13 @@ router.post("/:slotNumber/inbound", upload.single("file"), async (req, res) => {
 
     await slot.update({ isOccupied: true });
 
-    await Log.create({
+    // 로그 생성 시 slotNumber 포함
+    const newLog = await Log.create({
       productName,
       action: "입고",
-      details: `Slot ${slotNumber}: ${productName} 입고됨`,
+      slotNumber: slot.slotNumber, // 슬롯 번호 추가
+      timestamp: new Date(),
+      details: `Slot ${slot.slotNumber}: ${productName} 입고됨`,
     });
 
     console.log(`Slot ${slotNumber}에 ${productName} 입고 성공.`);

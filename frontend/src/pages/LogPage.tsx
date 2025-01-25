@@ -1,3 +1,4 @@
+// src/pages/LogPage.tsx
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
@@ -6,6 +7,7 @@ interface LogEntry {
   productName: string;
   action: '입고' | '출고';
   timestamp: string;
+  slotNumber: number; // 새 필드 추가
 }
 
 function LogPage() {
@@ -48,6 +50,9 @@ function LogPage() {
                   제품 이름
                 </th>
                 <th className="border-b border-gray-600 px-4 py-2">동작</th>
+                <th className="border-b border-gray-600 px-4 py-2">
+                  슬롯 번호
+                </th>
                 <th className="border-b border-gray-600 px-4 py-2">시간</th>
               </tr>
             </thead>
@@ -59,6 +64,9 @@ function LogPage() {
                   </td>
                   <td className="border-b border-gray-600 px-4 py-2">
                     {log.action}
+                  </td>
+                  <td className="border-b border-gray-600 px-4 py-2">
+                    {log.slotNumber}
                   </td>
                   <td className="border-b border-gray-600 px-4 py-2">
                     {new Date(log.timestamp).toLocaleString()}
