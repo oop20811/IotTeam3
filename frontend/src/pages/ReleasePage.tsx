@@ -29,20 +29,16 @@ function ReleasePage() {
   // 특정 슬롯 점유 해제
   const releaseSlot = async (slotNumber: number) => {
     try {
-      const response = await axios.post(
-        `http://localhost:8080/api/slots/${slotNumber}/release`,
-      );
-      console.log(`Slot ${slotNumber} 출고 완료:`, response.data);
+      await axios.post(`http://localhost:8080/api/slots/${slotNumber}/release`);
       alert(`Slot ${slotNumber}의 제품이 출고되었습니다.`);
-
-      // 슬롯 데이터 갱신
-      fetchSlotsData();
+      fetchSlotsData(); // 슬롯 데이터 갱신
     } catch (error) {
       console.error(`Slot ${slotNumber} 출고 실패:`, error);
       alert(`Slot ${slotNumber} 출고 중 오류가 발생했습니다.`);
     }
   };
 
+  // 컴포넌트가 마운트될 때 슬롯 데이터 가져오기
   useEffect(() => {
     fetchSlotsData();
   }, []);
@@ -68,11 +64,13 @@ function ReleasePage() {
             <div className="flex flex-grow flex-col items-center justify-center">
               {slot.isOccupied ? (
                 <>
-                  <img
-                    src={`http://localhost:8080${slot.productFilePath}`}
-                    alt={slot.productName || '제품 이미지'}
-                    className="mb-2 h-32 w-32 rounded-md object-cover"
-                  />
+                  {slot.productFilePath && (
+                    <img
+                      src={`http://localhost:8080${slot.productFilePath}`}
+                      alt={slot.productName || '제품 이미지'}
+                      className="mb-2 h-32 w-32 rounded-md object-cover"
+                    />
+                  )}
                   <p className="mb-2 text-center font-medium">
                     {slot.productName}
                   </p>

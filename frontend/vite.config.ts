@@ -9,7 +9,6 @@ export default defineConfig({
     },
   },
   server: {
-    // server 설정 추가
     proxy: {
       '/api': {
         target: 'http://localhost:8080', // 백엔드 서버 주소

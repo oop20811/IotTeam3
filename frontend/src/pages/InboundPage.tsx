@@ -65,7 +65,7 @@ const ProductInput: React.FC<ProductInputProps> = ({
                   ? 'bg-blue-500 hover:bg-blue-600'
                   : 'bg-green-500 hover:bg-green-600'
             }`}
-            disabled={occupiedSlots.includes(slot)} // 점유된 슬롯은 비활성화
+            disabled={occupiedSlots.includes(slot)}
           >
             {occupiedSlots.includes(slot) ? '사용중' : slot}
           </button>
@@ -88,9 +88,7 @@ const InboundPage: React.FC = () => {
   const fetchSlots = async () => {
     try {
       const response = await axios.get('http://localhost:8080/api/slots');
-      console.log('슬롯 데이터:', response.data); // 브라우저 콘솔에 출력
       setSlots(response.data);
-
       const occupied = response.data
         .filter((slot) => slot.isOccupied)
         .map((slot) => slot.slotNumber);
@@ -101,7 +99,7 @@ const InboundPage: React.FC = () => {
   };
 
   useEffect(() => {
-    fetchSlots(); // 컴포넌트 마운트 시 슬롯 데이터 가져오기
+    fetchSlots();
   }, []);
 
   const handleComplete = async () => {
@@ -110,51 +108,36 @@ const InboundPage: React.FC = () => {
       return;
     }
 
-    console.log('전송 데이터:', {
-      slotNumber: selectedSlot,
-      productName,
-      file: selectedFile,
-    });
-
     try {
       const formData = new FormData();
-      formData.append('slotNumber', selectedSlot.toString());
       formData.append('productName', productName);
       formData.append('file', selectedFile);
 
-      // 제품 저장 요청
-      const response = await axios.post(
-        'http://localhost:8080/api/products',
+      // 입고 요청 (파일 포함)
+      await axios.post(
+        `http://localhost:8080/api/slots/${selectedSlot}/inbound`,
         formData,
         {
           headers: { 'Content-Type': 'multipart/form-data' },
         },
       );
 
-      // 로그 저장 요청
-      await axios.post('http://localhost:8080/api/logs', {
-        productName: productName, // productName 필드 추가
-        action: '입고',
-        details: `Slot ${selectedSlot}: ${productName} 입고됨`,
-      });
-
-      alert('제품이 성공적으로 저장되었습니다!');
-      console.log('응답 데이터:', response.data);
-
+      alert('제품이 성공적으로 입고되었습니다!');
       setSelectedSlot(null);
       setProductName('');
       setSelectedFile(null);
-      fetchSlots(); // 저장 후 슬롯 상태 갱신
-      navigate('/main'); // 출고 페이지로 이동
+      fetchSlots();
+      navigate('/main');
     } catch (err) {
-      console.error('제품 저장 실패:', err);
+      console.error('입고 처리 실패:', err);
+      alert('입고 처리 중 오류가 발생했습니다.');
     }
   };
 
   return (
-    <div className="min-h-screen bg-gray-800 p-6 text-white">
+    <div className="min-h-screen bg-gray-800 p-6 text-black">
       <div className="mb-6 flex items-center justify-between">
-        <h1 className="text-3xl font-bold">Inbound Page</h1>
+        <h1 className="text-3xl font-bold text-white">Inbound Page</h1>
         <button
           onClick={() => navigate('/main')}
           className="rounded-lg bg-blue-500 px-4 py-2 text-white transition hover:bg-blue-600"

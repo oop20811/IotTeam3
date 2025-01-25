@@ -36,12 +36,12 @@ module.exports = {
         autoIncrement: true,
         primaryKey: true,
       },
-      slotNumber: {
+      slotId: {
         type: Sequelize.INTEGER,
         allowNull: false,
         references: {
           model: "slots", // 참조하는 테이블 이름
-          key: "slotNumber", // 참조하는 컬럼
+          key: "id", // 참조하는 컬럼 (PK)
         },
         onDelete: "CASCADE",
         onUpdate: "CASCADE",
