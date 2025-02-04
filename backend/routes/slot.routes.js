@@ -1,9 +1,10 @@
-// routes/slots.js
+// routes/slot.routes.js
 const express = require("express");
 const router = express.Router();
 const multer = require("multer");
 const path = require("path");
 const { Slot, Product, Log } = require("../models");
+const { publishMqttMessage } = require("../mqttClient"); // MQTT 발행 함수 불러오기
 
 // 파일 저장 설정
 const storage = multer.diskStorage({
@@ -105,6 +106,11 @@ router.post("/:slotNumber/release", async (req, res) => {
       details: `제품 ${product.productName}이 슬롯 ${slot.slotNumber}에서 출고되었습니다.`,
     });
 
+    // MQTT 메시지 발행
+    const topic = `release/${slotNumber}`;
+    const message = `release${slotNumber}`;
+    publishMqttMessage(topic, message);
+
     console.log(`Slot ${slotNumber}의 제품이 출고되었습니다.`);
     res
       .status(200)
@@ -117,7 +123,6 @@ router.post("/:slotNumber/release", async (req, res) => {
 
 // -------------------------
 // 특정 슬롯에 제품 입고 처리 (파일 업로드 포함)
-// -------------------------
 router.post("/:slotNumber/inbound", upload.single("file"), async (req, res) => {
   const { slotNumber } = req.params;
   const { productName } = req.body;
@@ -170,6 +175,11 @@ router.post("/:slotNumber/inbound", upload.single("file"), async (req, res) => {
       timestamp: new Date(),
       details: `Slot ${slot.slotNumber}: ${productName} 입고됨`,
     });
+
+    // MQTT 메시지 발행
+    const topic = `inbound/${slotNumber}`;
+    const message = `inbound${slotNumber}`;
+    publishMqttMessage(topic, message);
 
     console.log(`Slot ${slotNumber}에 ${productName} 입고 성공.`);
     res.status(201).json({

@@ -1,200 +1,179 @@
+// routes/product.routes.js
 const express = require("express");
-const multer = require("multer");
-const db = require("../models");
-const { Product, Slot } = db; // Slot 모델 사용
 const router = express.Router();
-
-// 파일 업로드 설정
-const storage = multer.diskStorage({
-  destination: "uploads/",
-  filename: (req, file, cb) => {
-    cb(null, `${Date.now()}-${file.originalname}`);
-  },
-});
-
-const upload = multer({ storage });
+const { Product, Slot, Log } = require("../models");
+const { publishMqttMessage } = require("../mqttClient"); // MQTT 발행 함수 불러오기
 
 // -------------------------
-// [1] 제품 등록 (POST "/")
-// -------------------------
-router.post("/", upload.single("file"), async (req, res) => {
-  try {
-    console.log("요청 바디:", req.body);
-    console.log("업로드된 파일:", req.file);
-
-    const slotNumber = parseInt(req.body.slotNumber, 10); // 문자열 -> 숫자로 변환
-    const productName = req.body.productName;
-    const filePath = req.file ? `/uploads/${req.file.filename}` : null;
-
-    // 기본 유효성 검사
-    if (!slotNumber || isNaN(slotNumber) || !productName || !filePath) {
-      return res
-        .status(400)
-        .json({ message: "모든 필드를 올바르게 입력하세요." });
-    }
-
-    // 1) slots 테이블에서 slotNumber로 슬롯 찾기
-    const slot = await Slot.findOne({ where: { slotNumber } });
-    if (!slot) {
-      return res
-        .status(404)
-        .json({ message: `슬롯 번호 ${slotNumber}가 존재하지 않습니다.` });
-    }
-
-    // 2) 해당 슬롯에 이미 제품이 있는지 확인 (slotId로 Product 조회)
-    const existingProduct = await Product.findOne({
-      where: { slotId: slot.id },
-    });
-    if (existingProduct) {
-      return res
-        .status(400)
-        .json({ message: "해당 슬롯에 이미 제품이 존재합니다." });
-    }
-
-    // 3) 새로운 제품 생성: products 테이블에는 slotId만 저장
-    const product = await Product.create({
-      productName,
-      filePath,
-      slotId: slot.id, // FK 설정
-    });
-
-    // 4) 슬롯 점유 상태 업데이트 (isOccupied = true)
-    const slotUpdateResult = await Slot.update(
-      { isOccupied: true }, // 점유 상태 true로 변경
-      { where: { id: slot.id } } // slotNumber 대신 PK(id) 사용
-    );
-
-    if (slotUpdateResult[0] === 0) {
-      console.error("슬롯 점유 상태 업데이트 실패: 슬롯을 찾을 수 없습니다.");
-    } else {
-      console.log(
-        `슬롯 ${slotNumber}(ID: ${slot.id}) 점유 상태 업데이트 성공.`
-      );
-    }
-
-    res.status(201).json({
-      message: "제품이 성공적으로 저장되었습니다!",
-      product,
-    });
-  } catch (err) {
-    console.error("제품 저장 중 오류 발생:", err);
-    res.status(500).json({ message: "서버 오류로 저장에 실패했습니다." });
-  }
-});
-
-// -------------------------
-// [2] 제품 등록 (POST "/api/products")
-// -------------------------
-router.post("/api/products", upload.single("file"), async (req, res) => {
-  try {
-    console.log("요청 바디:", req.body);
-    console.log("업로드된 파일:", req.file);
-
-    const slotNumber = parseInt(req.body.slotNumber, 10);
-    const productName = req.body.productName;
-    const filePath = req.file ? `/uploads/${req.file.filename}` : null;
-
-    if (!slotNumber || isNaN(slotNumber) || !productName || !filePath) {
-      return res
-        .status(400)
-        .json({ message: "모든 필드를 올바르게 입력하세요." });
-    }
-
-    // 1) 슬롯 찾기
-    const slot = await Slot.findOne({ where: { slotNumber } });
-    if (!slot) {
-      return res
-        .status(404)
-        .json({ message: `슬롯 번호 ${slotNumber}가 존재하지 않습니다.` });
-    }
-
-    // 2) 이미 제품이 있는지 확인
-    const existingProduct = await Product.findOne({
-      where: { slotId: slot.id },
-    });
-    if (existingProduct) {
-      return res
-        .status(400)
-        .json({ message: "해당 슬롯에 이미 제품이 존재합니다." });
-    }
-
-    // 3) 제품 생성
-    const product = await Product.create({
-      productName,
-      filePath,
-      slotId: slot.id,
-    });
-
-    // 4) 슬롯 점유 상태 업데이트
-    const slotUpdateResult = await Slot.update(
-      { isOccupied: true },
-      { where: { id: slot.id } }
-    );
-
-    if (slotUpdateResult[0] === 0) {
-      console.error("슬롯 점유 상태 업데이트 실패: 슬롯을 찾을 수 없습니다.");
-    } else {
-      console.log(
-        `슬롯 ${slotNumber}(ID: ${slot.id}) 점유 상태 업데이트 성공.`
-      );
-    }
-
-    res.status(201).json({
-      message: "제품이 성공적으로 저장되었습니다!",
-      product,
-    });
-  } catch (err) {
-    console.error("제품 저장 중 오류 발생:", err);
-    res.status(500).json({ message: "서버 오류로 저장에 실패했습니다." });
-  }
-});
-
-// -------------------------
-// [3] 제품 조회 (GET "/")
+// 모든 제품 조회
 // -------------------------
 router.get("/", async (req, res) => {
   try {
     const products = await Product.findAll({
-      order: [["createdAt", "DESC"]],
-      // 만약 슬롯 번호까지 같이 보고 싶다면 Slot을 조인(include)할 수 있음:
-      // include: [Slot],
+      include: Slot,
+      order: [["id", "ASC"]],
     });
     res.status(200).json(products);
   } catch (err) {
-    res.status(500).json({ message: "서버 오류로 조회 실패" });
+    console.error("제품 조회 실패:", err);
+    res.status(500).json({ message: "제품 조회 실패" });
   }
 });
 
 // -------------------------
-// [4] 제품 삭제 (DELETE "/:id")
+// 특정 제품 조회
 // -------------------------
-router.delete("/:id", async (req, res) => {
+router.get("/:id", async (req, res) => {
+  const productId = req.params.id;
   try {
-    const productId = req.params.id;
+    const product = await Product.findOne({
+      where: { id: productId },
+      include: Slot,
+    });
+    if (!product) {
+      return res.status(404).json({ message: "제품을 찾을 수 없습니다." });
+    }
+    res.status(200).json(product);
+  } catch (err) {
+    console.error("특정 제품 조회 실패:", err);
+    res.status(500).json({ message: "특정 제품 조회 실패" });
+  }
+});
 
-    // 1) 삭제할 제품 조회
-    const product = await Product.findByPk(productId);
+// -------------------------
+// 제품 생성 (입고와 유사)
+// -------------------------
+router.post("/", async (req, res) => {
+  const { productName, filePath, slotId } = req.body;
+  try {
+    const slot = await Slot.findOne({ where: { id: slotId } });
+    if (!slot) {
+      return res.status(404).json({ message: "슬롯을 찾을 수 없습니다." });
+    }
+
+    if (slot.isOccupied) {
+      return res.status(400).json({ message: "슬롯이 이미 점유되었습니다." });
+    }
+
+    const newProduct = await Product.create({
+      productName,
+      filePath,
+      slotId,
+    });
+
+    await slot.update({ isOccupied: true });
+
+    // 로그 생성
+    const newLog = await Log.create({
+      productName,
+      action: "입고",
+      slotNumber: slot.slotNumber,
+      timestamp: new Date(),
+      details: `Slot ${slot.slotNumber}: ${productName} 입고됨`,
+    });
+
+    // MQTT 메시지 발행
+    const topic = `inbound/${slot.slotNumber}`;
+    const message = `inbound${slot.slotNumber}`;
+    publishMqttMessage(topic, message);
+
+    res.status(201).json({
+      message: `${productName}이(가) 슬롯 ${slot.slotNumber}에 입고되었습니다.`,
+      product: newProduct,
+    });
+  } catch (error) {
+    console.error("제품 생성 실패:", error);
+    res.status(500).json({ message: "제품 생성 실패" });
+  }
+});
+
+// -------------------------
+// 제품 업데이트
+// -------------------------
+router.put("/:id", async (req, res) => {
+  const productId = req.params.id;
+  const { productName, filePath, slotId } = req.body;
+
+  try {
+    const product = await Product.findOne({ where: { id: productId } });
     if (!product) {
       return res.status(404).json({ message: "제품을 찾을 수 없습니다." });
     }
 
-    // 2) 해당 제품의 slotId를 통해 슬롯 찾기
-    const slotId = product.slotId;
-    // 원한다면 Slot.findByPk(slotId)를 해볼 수도 있지만, 단순 업데이트만 할 거라면 바로 update
+    // 슬롯 변경 시 기존 슬롯의 점유 상태 업데이트
+    if (slotId && slotId !== product.slotId) {
+      const newSlot = await Slot.findOne({ where: { id: slotId } });
+      if (!newSlot) {
+        return res.status(404).json({ message: "새 슬롯을 찾을 수 없습니다." });
+      }
 
-    // 3) 슬롯 점유 상태 해제
-    await Slot.update(
-      { isOccupied: false },
-      { where: { id: slotId } } // slotNumber 대신 id 로 매칭
-    );
+      if (newSlot.isOccupied) {
+        return res
+          .status(400)
+          .json({ message: "새 슬롯이 이미 점유되었습니다." });
+      }
 
-    // 4) 제품 삭제
+      // 기존 슬롯의 점유 상태 업데이트
+      const oldSlot = await Slot.findOne({ where: { id: product.slotId } });
+      await oldSlot.update({ isOccupied: false });
+
+      // 새 슬롯의 점유 상태 업데이트
+      await newSlot.update({ isOccupied: true });
+
+      product.slotId = slotId;
+    }
+
+    if (productName) product.productName = productName;
+    if (filePath) product.filePath = filePath;
+
+    await product.save();
+
+    res.status(200).json({ message: "제품이 업데이트되었습니다.", product });
+  } catch (err) {
+    console.error("제품 업데이트 실패:", err);
+    res.status(500).json({ message: "제품 업데이트 실패" });
+  }
+});
+
+// -------------------------
+// 제품 삭제 (출고와 유사)
+// -------------------------
+router.delete("/:id", async (req, res) => {
+  const productId = req.params.id;
+  try {
+    const product = await Product.findOne({
+      where: { id: productId },
+      include: Slot,
+    });
+    if (!product) {
+      return res.status(404).json({ message: "제품을 찾을 수 없습니다." });
+    }
+
+    const slot = product.Slot;
+    if (slot) {
+      await slot.update({ isOccupied: false });
+    }
+
     await product.destroy();
 
-    res.status(200).json({ message: "제품 삭제 및 슬롯 초기화 완료" });
+    // 로그 생성
+    const newLog = await Log.create({
+      productName: product.productName,
+      action: "출고",
+      slotNumber: slot.slotNumber,
+      timestamp: new Date(),
+      details: `제품 ${product.productName}이 슬롯 ${slot.slotNumber}에서 출고되었습니다.`,
+    });
+
+    // MQTT 메시지 발행
+    const topic = `release/${slot.slotNumber}`;
+    const message = `release${slot.slotNumber}`;
+    publishMqttMessage(topic, message);
+
+    res.status(200).json({ message: "제품이 삭제되었습니다." });
   } catch (err) {
     console.error("제품 삭제 실패:", err);
-    res.status(500).json({ message: "서버 오류" });
+    res.status(500).json({ message: "제품 삭제 실패" });
   }
 });
 

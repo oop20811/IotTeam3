@@ -1,0 +1,23 @@
+{
+  "development": {
+    "username": "cjsdn_iot_team3",
+    "password": "2025team3cjsdn",
+    "database": "cjsdn_team3",
+    "host": "127.0.0.1",
+    "dialect": "mariadb"
+  },
+  "test": {
+    "username": "cjsdn_iot_team3",
+    "password": "2025team3cjsdn",
+    "database": "cjsdn_team3",
+    "host": "127.0.0.1",
+    "dialect": "mariadb"
+  },
+  "production": {
+    "username": "cjsdn_iot_team3",
+    "password": "2025team3cjsdn",
+    "database": "cjsdn_team3",
+    "host": "127.0.0.1",
+    "dialect": "mariadb"
+  }
+}
