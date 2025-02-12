@@ -3,12 +3,7 @@ const { NodeSSH } = require("node-ssh");
 const ssh = new NodeSSH();
 
 // Raspberry Pi SSH 연결 정보
-const sshConfig = {
-  host: "192.168.0.7", // Raspberry Pi의 IP 주소
-  port: 22, // 기본 SSH 포트
-  username: "pi", // 사용자 이름
-  password: "1234", // 비밀번호
-};
+const sshConfig = require("./config/config"); // 상대 경로로 config.js 불러오기
 
 // 실행할 Python 스크립트 경로
 const pythonScriptPath = "/home/pi/bluetooth1.py";

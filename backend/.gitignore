@@ -26,4 +26,5 @@ build/
 # 데이터베이스 설정 파일
 config/config.json
 config/db.config.js
+config/config.js
 node_modules/
