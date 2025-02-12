@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import { motion } from 'framer-motion';
 
 interface SlotWithProduct {
   slotNumber: number;
@@ -11,6 +12,7 @@ interface SlotWithProduct {
 
 function ReleasePage() {
   const [slots, setSlots] = useState<SlotWithProduct[]>([]);
+  const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
 
   // 슬롯 및 제품 데이터 가져오기
@@ -26,12 +28,21 @@ function ReleasePage() {
     }
   };
 
-  // 특정 슬롯 점유 해제
+  // 특정 슬롯 출고 처리 및 15초 로딩 화면 표시
   const releaseSlot = async (slotNumber: number) => {
     try {
       await axios.post(`http://localhost:8080/api/slots/${slotNumber}/release`);
       alert(`Slot ${slotNumber}의 제품이 출고되었습니다.`);
-      fetchSlotsData(); // 슬롯 데이터 갱신
+
+      // 출고 성공 후 로딩 화면 표시
+      setIsLoading(true);
+      // 필요에 따라 슬롯 데이터를 갱신 (선택 사항)
+      fetchSlotsData();
+
+      setTimeout(() => {
+        setIsLoading(false);
+        navigate('/main');
+      }, 20000);
     } catch (error) {
       console.error(`Slot ${slotNumber} 출고 실패:`, error);
       alert(`Slot ${slotNumber} 출고 중 오류가 발생했습니다.`);
@@ -42,6 +53,51 @@ function ReleasePage() {
   useEffect(() => {
     fetchSlotsData();
   }, []);
+
+  // 로딩 중이면 바운싱 도트 애니메이션 적용된 로딩 화면 렌더링
+  if (isLoading) {
+    return (
+      <motion.div
+        className="flex min-h-screen flex-col items-center justify-center bg-gray-800"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        exit={{ opacity: 0 }}
+      >
+        {/* 바운싱 도트 애니메이션 */}
+        <div className="mb-6 flex space-x-2">
+          {[0, 1, 2].map((i) => (
+            <motion.div
+              key={i}
+              className="h-4 w-4 rounded-full bg-white"
+              animate={{ y: [0, -15, 0] }}
+              transition={{
+                duration: 0.6,
+                ease: 'easeInOut',
+                repeat: Infinity,
+                delay: i * 0.2,
+              }}
+            />
+          ))}
+        </div>
+        <motion.h1
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8 }}
+          className="text-3xl font-bold text-white"
+        >
+          처리 중입니다.
+        </motion.h1>
+        <motion.p
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8, delay: 0.3 }}
+          className="mt-4 text-white"
+        >
+          잠시만 기다려주세요.
+        </motion.p>
+      </motion.div>
+    );
+  }
 
   return (
     <div className="min-h-screen bg-gray-800 p-6 text-white">

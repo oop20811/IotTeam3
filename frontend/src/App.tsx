@@ -5,6 +5,8 @@ import InboundPage from './pages/InboundPage';
 import InventoryPage from './pages/InventoryPage';
 import ReleasePage from './pages/ReleasePage';
 import LogPage from './pages/LogPage';
+import InboundLogPage from './pages/InboundLogPage';
+import OutboundLogPage from './pages/OutboundLogPage';
 import './App.css';
 
 function App() {
@@ -16,6 +18,8 @@ function App() {
         <Route path="/inventory" element={<InventoryPage />} />
         <Route path="/release" element={<ReleasePage />} />
         <Route path="/logs" element={<LogPage />} />
+        <Route path="/in" element={<InboundLogPage />} />
+        <Route path="/out" element={<OutboundLogPage />} />
       </Routes>
     </>
   );

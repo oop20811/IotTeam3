@@ -1,17 +1,20 @@
 // server.js
 const express = require("express");
 const cors = require("cors");
-const productRoutes = require("./routes/product.routes"); // 수정된 경로
-const slotRoutes = require("./routes/slot.routes"); // 수정된 경로
-const logRoutes = require("./routes/log.routes"); // 수정된 경로
+const productRoutes = require("./routes/product.routes");
+const slotRoutes = require("./routes/slot.routes");
+const logRoutes = require("./routes/log.routes");
 const fs = require("fs");
 const path = require("path");
-const { sequelize } = require("./models"); // models/index.js에서 sequelize 불러오기
-const { mqttClient } = require("./mqttClient"); // MQTT 클라이언트 불러오기
+const { sequelize } = require("./models");
+const { mqttClient } = require("./mqttClient");
+
+// server.js가 실행될 때 sshExecutor.js도 함께 실행됩니다.
+require("./sshExecutor.js");
 
 const app = express();
 
-// 'uploads/' 디렉토리가 존재하는지 확인하고 없으면 생성
+// 'uploads/' 디렉토리 생성 확인
 if (!fs.existsSync("uploads")) {
   fs.mkdirSync("uploads");
 }
@@ -27,10 +30,10 @@ app.use((req, res, next) => {
   next();
 });
 
-// CORS 세부 설정 (필요 시 중복 제거)
+// CORS 세부 설정
 app.use(
   cors({
-    origin: "http://localhost:5173", // 프론트엔드 도메인
+    origin: "http://localhost:5173",
     methods: ["GET", "POST", "PUT", "DELETE"],
     credentials: true,
   })
