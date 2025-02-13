@@ -447,9 +447,9 @@
   {
     "id": "telegram-config",
     "type": "telegram bot",
-    "botname": "IotTeam3",
+    "botname": "",
     "usernames": "",
-    "chatids": "7808452863",
+    "chatids": "",
     "baseapiurl": "https://api.telegram.org",
     "testenvironment": false,
     "pollinterval": "300",
