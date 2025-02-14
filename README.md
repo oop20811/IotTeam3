@@ -106,8 +106,6 @@ https://github.com/user-attachments/assets/73038ce5-12e0-4393-8dab-8f229fa9fa46
 <br>
 
 ## 🛠 System Architecture
-
-<div align="center">
 <img width="800" alt="System Architecture" src="https://github.com/user-attachments/assets/83b99e54-897a-4837-a6c0-c8466f68a1ae" />
 <br>
 
@@ -115,7 +113,6 @@ https://github.com/user-attachments/assets/73038ce5-12e0-4393-8dab-8f229fa9fa46
 
 ## 💻 Tech Stack
 
-<div align="center">
 
 | 범주 | 사용 기술 |
 |:--------:|:------------------------------:|
@@ -145,6 +142,7 @@ https://github.com/user-attachments/assets/73038ce5-12e0-4393-8dab-8f229fa9fa46
 
 ---
 
+<br>
  
 ## 📗 API
 
@@ -157,6 +155,7 @@ https://github.com/user-attachments/assets/73038ce5-12e0-4393-8dab-8f229fa9fa46
 <br>
 
 ---
+<br>
 
 ## 👨‍💻 Members
 <br>
