@@ -48,7 +48,7 @@ K-디지털 트레이닝 3팀:IoRT 통합 스마트팩토리 혁신 자동입출
 1️⃣입고페이지에서 재품이미지와 제품이름 입고할 창고 슬롯을 선택 후 확인 버튼을 누르면 실제로 제품이 입고됩니다!
 <table>
 <tr>
-<td><img src="https://github.com/user-attachments/assets/52dd71d2-ca37-4178-89ad-1b794001933c" alt="입고" width="850px"></td>
+<td><img src="https://github.com/user-attachments/assets/52dd71d2-ca37-4178-89ad-1b794001933c" alt="입고" width="830px"></td>
 </tr>
 </table>
 <br>
@@ -61,7 +61,7 @@ https://github.com/user-attachments/assets/f23cd588-63b1-45d2-934f-897d3b413874
 2️⃣출고페이지에서 출고할 제품을 선택하면 제품이 실제로 출고됩니다!
 <table>
 <tr>
-<td><img src="https://github.com/user-attachments/assets/74ddc449-72df-4980-a870-c177c7ceae40" alt="출고" width="850px"></td>
+<td><img src="https://github.com/user-attachments/assets/74ddc449-72df-4980-a870-c177c7ceae40" alt="출고" width="830px"></td>
 </tr>
 </table>
 <br>
