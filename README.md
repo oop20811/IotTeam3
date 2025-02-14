@@ -33,7 +33,7 @@ K-디지털 트레이닝 3팀:IoRT 통합 스마트팩토리 혁신 자동입출
             <td width="600" align="center">
                 <img width="500" alt="image" src="https://github.com/user-attachments/assets/e65fba07-8bec-4752-989f-9de89f907374">
             </td>
-            <td width="600" align="center">
+            <td width="700" align="center">
                 <div align="left">
                     <br/>
                     <p class="highlight">💻 저희 프로젝트에서는 자동 입출고 시스템을 기반으로 한 혁신적인 스마트팩토리 네트워크를 구축하였습니다!</p>
@@ -55,7 +55,7 @@ K-디지털 트레이닝 3팀:IoRT 통합 스마트팩토리 혁신 자동입출
 1️⃣입고페이지에서 재품이미지와 제품이름 입고할 창고 슬롯을 선택 후 확인 버튼을 누르면 실제로 제품이 입고됩니다!
 <table>
 <tr>
-<td><img src="https://github.com/user-attachments/assets/52dd71d2-ca37-4178-89ad-1b794001933c" alt="입고" width="1000px"></td>
+<td><img src="https://github.com/user-attachments/assets/52dd71d2-ca37-4178-89ad-1b794001933c" alt="입고" width="800px"></td>
 </tr>
 </table>
 
@@ -63,7 +63,7 @@ K-디지털 트레이닝 3팀:IoRT 통합 스마트팩토리 혁신 자동입출
 2️⃣출고페이지에서 출고할 제품을 선택하면 제품이 실제로 출고됩니다!
 <table>
 <tr>
-<td><img src="https://github.com/user-attachments/assets/74ddc449-72df-4980-a870-c177c7ceae40" alt="출고" width="1000px"></td>
+<td><img src="https://github.com/user-attachments/assets/74ddc449-72df-4980-a870-c177c7ceae40" alt="출고" width="800px"></td>
 </tr>
 </table>
 
@@ -71,7 +71,7 @@ K-디지털 트레이닝 3팀:IoRT 통합 스마트팩토리 혁신 자동입출
 3️⃣재고페이지에서 입출고 로그 버튼을 누르면 제품이름과 입출고 된 시간과 슬롯번호를 확인 할 수 있습니다.
 <table>
 <tr>
-<td><img src="https://github.com/user-attachments/assets/c35b5adf-ad84-4c67-9620-86ea2351d613" alt="로그" width="1000px"></td>
+<td><img src="https://github.com/user-attachments/assets/c35b5adf-ad84-4c67-9620-86ea2351d613" alt="로그" width="800px"></td>
 </tr>
 </table>
 
