@@ -81,7 +81,32 @@ https://github.com/user-attachments/assets/ad3fb807-9659-46b3-9815-d7c3d6048e1e
 <br>
 <br>
 
+### ☁️ 노드레드 ☁️
+<br>
+
+4️⃣Temperature and Humidity Sensor와 Fan를 사용하여 🌡️온도가 30도 이상이거나 습도 40 이상일 때 💨Fan이 회전합니다!
+
+https://github.com/user-attachments/assets/2cfb6614-fcef-452a-9962-212e50e5602f
+
+<br>
+
+---
+
+<br>
+
+5️⃣Flame Sensor와 Buzzer를 사용하여 🔥화재🔥가 감지되면 🚨Buzzer가 울리고 텔레그램으로 메세지💬가 갑니다!
+
+https://github.com/user-attachments/assets/73038ce5-12e0-4393-8dab-8f229fa9fa46
+
+<br>
+
+<img width="800" alt="System Architecture" src="https://github.com/user-attachments/assets/372995a5-d873-4c27-856e-b8ec1a593600" />
+
+<br>
+<br>
+
 ## 🛠 System Architecture
+
 <div align="center">
 <img width="800" alt="System Architecture" src="https://github.com/user-attachments/assets/83b99e54-897a-4837-a6c0-c8466f68a1ae" />
 <br>
