@@ -1,20 +1,14 @@
  <h1 align="center">
 K-디지털 트레이닝 3팀:IoRT 통합 스마트팩토리 혁신 자동입출고 물류 네트워크</h1>
 
-
 <div align="center" style="font-size:18px"> 
 <b>자동 입출고 시스템을 토대로 한 혁신적 스마트팩토리 인프라 구축</b> </div>
 <div align="center">
-
 </p>
-
-<p align="center">
-  
-<img width="1470" alt="스크린샷 2025-02-14 오전 10 34 36" src="https://github.com/user-attachments/assets/9ac4bca2-2e1d-4d50-97c1-b13b30e4ec58" />
-
+<p align="center"> 
+<img width="800" alt="스크린샷 2025-02-14 오전 10 34 36" src="https://github.com/user-attachments/assets/9ac4bca2-2e1d-4d50-97c1-b13b30e4ec58" />
 </div>
 <br>
-
 
 ## 📖 Table of Contents
 * [Introduce](#-introduce)
@@ -23,10 +17,9 @@ K-디지털 트레이닝 3팀:IoRT 통합 스마트팩토리 혁신 자동입출
 * [Tech Stack](#-tech-stack)
 * [API](#-api)
 * [Team Members](#-members)
-
+<br>
 
 ## 🎨 Introduce
-
 <table width="1200px">
     <tbody>
         <tr>
@@ -46,7 +39,7 @@ K-디지털 트레이닝 3팀:IoRT 통합 스마트팩토리 혁신 자동입출
         </tr>
     </tbody>
 </table>
-
+<br>
 
  
 # 🌈 Feature
@@ -58,6 +51,11 @@ K-디지털 트레이닝 3팀:IoRT 통합 스마트팩토리 혁신 자동입출
 <td><img src="https://github.com/user-attachments/assets/52dd71d2-ca37-4178-89ad-1b794001933c" alt="입고" width="800px"></td>
 </tr>
 </table>
+<br>
+
+### ☁️ 실제 입고 동영상 ☁️ 
+https://github.com/user-attachments/assets/f23cd588-63b1-45d2-934f-897d3b413874
+
 
 ### ☁️ 출고 페이지 ☁️
 2️⃣출고페이지에서 출고할 제품을 선택하면 제품이 실제로 출고됩니다!
@@ -66,6 +64,12 @@ K-디지털 트레이닝 3팀:IoRT 통합 스마트팩토리 혁신 자동입출
 <td><img src="https://github.com/user-attachments/assets/74ddc449-72df-4980-a870-c177c7ceae40" alt="출고" width="800px"></td>
 </tr>
 </table>
+<br>
+
+### ☁️ 실제 출고 동열상 ☁️
+https://github.com/user-attachments/assets/ad3fb807-9659-46b3-9815-d7c3d6048e1e
+
+<br>
 
 ### ☁️ 재고 페이지 & 입출고 로그 페이지 ☁️ 
 3️⃣재고페이지에서 입출고 로그 버튼을 누르면 제품이름과 입출고 된 시간과 슬롯번호를 확인 할 수 있습니다.
@@ -74,11 +78,14 @@ K-디지털 트레이닝 3팀:IoRT 통합 스마트팩토리 혁신 자동입출
 <td><img src="https://github.com/user-attachments/assets/c35b5adf-ad84-4c67-9620-86ea2351d613" alt="로그" width="800px"></td>
 </tr>
 </table>
+<br>
+<br>
 
 ## 🛠 System Architecture
 <div align="center">
 <img width="800" alt="System Architecture" src="https://github.com/user-attachments/assets/83b99e54-897a-4837-a6c0-c8466f68a1ae" />
 <br>
+
 
 
 ## 💻 Tech Stack
@@ -95,7 +102,11 @@ K-디지털 트레이닝 3팀:IoRT 통합 스마트팩토리 혁신 자동입출
 
 </div>
 
+<br>
+
 ---
+
+<br>
 
 | **Category**                      | **Technologies**                                      |
 |----------------------------------|---------------------------------------------------|
@@ -105,56 +116,56 @@ K-디지털 트레이닝 3팀:IoRT 통합 스마트팩토리 혁신 자동입출
 | **Programming & Automation**     | Python, Node-RED, Arduino IDE                     |
 | **Database**                      | MariaDB                                          |
 
+<br>
+
 ---
 
+ 
 ## 📗 API
+
+<br>
 
 | 로그 관련 API | 슬롯(창고) 관련 API | 제품 입출고 및 재고 관련 API |
 |--------------|------------------|------------------|
 | `GET /api/logs` <br> 모든 입출고 로그 데이터를 가져옴 | `GET /api/slots` <br> 모든 슬롯의 상태(점유 여부)를 가져옴 <br> `GET /api/slots/status` <br> 각 슬롯에 저장된 제품의 상태 정보를 가져옴 <br> `POST /api/slots/{slotNumber}/inbound` <br> 특정 슬롯에 제품을 입고 (파일 업로드 포함) <br> `POST /api/slots/{slotNumber}/release` <br> 특정 슬롯의 제품을 출고 | `POST /api/slots/{slotNumber}/inbound` <br> 제품을 특정 슬롯에 입고 (파일 업로드 포함) <br> `POST /api/slots/{slotNumber}/release` <br> 제품을 특정 슬롯에서 출고 |
 
+<br>
+
 ---
 
-
 ## 👨‍💻 Members
-
+<br>
 <table>
-    <thead>
-        <tr>
-            <th>Picture</th>
-            <th width="150" align="center"><img src="https://github.com/user-attachments/assets/f9fc0dbe-37a7-4fea-bff4-5655f74c24a4" width="60" height="60" alt="이천우"></th>
-            <th width="150" align="center"></th>
-            <th width="150" align="center"></th>
-            <th width="150" align="center"></th>
-            <th width="150" align="center"></th>
-        </tr>
-    </thead>
-    <tbody>
-        <tr>
-            <th>Name</th>
-            <td align="center">이천우</td>
-            <td align="center">김도현</td>
-            <td align="center">이승빈</td>
-            <td align="center">이용주</td>
-            <td align="center">이준원</td>
-        </tr>
-        <tr>
-            <th>Position</th>
-            <td align="center">Leader<br>Frontend<br>Backend</td>
-            <td align="center">Raspberry Pi</td>
-            <td align="center">Raspberry Pi</td>
-            <td align="center">Arduino</td>
-            <td align="center">Arduino</td>
-        </tr>
-        <tr>
-            <th>Department</th>
-            <td align="center">기계공학과</td>
-            <td align="center">전자공학과</td>
-            <td align="center">전자공학과</td>
-            <td align="center">전자공학과</td>
-            <td align="center">기계설계공학과</td>
-        </tr>
-    </tbody>
+    <tr>
+        <th>Name</th>
+        <td>이천우</td>
+        <td>김도현</td>
+        <td>이승빈</td>
+        <td>김용주</td>
+        <td>이준원</td>
+    </tr>
+    <tr>
+        <th>Student ID</th>
+        <td>2021110034</td>
+        <td>2022144038</td>
+        <td>2022142045</td>
+        <td>2021140009</td>
+        <td>2019122035</td>
+    </tr>
+    <tr>
+        <th>Position</th>
+        <td>Leader, Frontend, Backend</td>
+        <td>Raspberry Pi</td>
+        <td>Raspberry Pi</td>
+        <td>Arduino</td>
+        <td>Arduino</td>
+    </tr>
+    <tr>
+        <th>Department</th>
+        <td>기계공학과</td>
+        <td>전자공학과</td>
+        <td>전자공학과</td>
+        <td>전자공학과</td>
+        <td>기계설계공학과</td>
+    </tr>
 </table>
-
-
