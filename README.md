@@ -22,7 +22,6 @@ K-디지털 트레이닝 3팀:IoRT 통합 스마트팩토리 혁신 자동입출
 * [System Architecture](#-system-architecture)
 * [Tech Stack](#-tech-stack)
 * [API](#-api)
-* [FE 폴더 구조](#-FE-폴더-구조)
 * [Team Members](#-members)
 
 
@@ -40,9 +39,9 @@ K-디지털 트레이닝 3팀:IoRT 통합 스마트팩토리 혁신 자동입출
             <div align="left">
 <br/>
 <p class="highlighte">💻 저희 프로젝트에서는 자동 입출고 시스템을 토대로 한 혁신적 스마트팩토리 네트워크를 구축 하였습니다!
-<br><br>1️⃣입고페이지에서 재품이미지와 
-<br><br>2️⃣
-<br><br>3️⃣
+<br><br>1️⃣입고페이지에서 재품이미지와 제품이름 입고할 창고 슬롯을 선택 후 확인 버튼을 누르면 실제로 제품이 입고됩니다!
+<br><br>2️⃣출고페이지에서 출고할 제품을 선택하면 제품이 실제로 출고됩니다!
+<br><br>3️⃣재고페이지에서 입출고 로그 버튼을 누르면 제품이름과 입출고 된 시간과 슬롯번호를 확인 할 수 있습니다.
 <br/><br/>
 </br>
 </div>
@@ -59,42 +58,28 @@ K-디지털 트레이닝 3팀:IoRT 통합 스마트팩토리 혁신 자동입출
  
 # 🌈 Feature
 
-### ☁️ 입고페이지 ☁️ <br>
+### ☁️ 입고페이지 ☁️ 
 <table>
 <tr>
-
-  
+ <td><img src="https://github.com/user-attachments/assets/de58a605-4c10-41ea-bf97-8ef4b75a55b5" alt="입고" height="auto" width="auto"></td>
 </tr>
 </table>
 
 
 ###   ☁️ 출고 페이지 ☁️
-프로모션 하고 싶으신 제품 사진을 찍고 사진을 업로드 한 뒤 "브랜딩 start" 버튼을 눌러주세요!
-<br>
-
-
-<br>
-
- ###   ☁️ 재고 페이지 ☁️ 
- 로고와 포스터에 들어갈 문구를 작성해주세요!
 <table>
 <tr>
-<td><img src="" alt="로고" height="auto" width="auto"></td>
-<td><img src="" alt="포스터" height="auto" width="auto"></td>
+<td><img src="https://github.com/user-attachments/assets/f638213c-27e4-4de6-9f50-46efb27147da" alt="출고" height="auto" width="auto"></td>
 </tr>
 </table>
 
-### ☁️ 입출고 로그 페이지 ☁️ 
-로고와 포스터의 색상과 스타일을 선택해주세요!
+ ###   ☁️ 재고 페이지 & 입출고 로그 페이지☁️ 
+
 <table>
 <tr>
-<td><img src="" alt="색상" height="auto" width="auto"></td>
-<td><img src="" alt="스타일" height="auto" width="auto"></td>
+<td><img src="https://github.com/user-attachments/assets/79948506-9586-4f24-b722-532052df8c3a" alt="로그" height="auto" width="auto"></td>
 </tr>
 </table>
-
-
-
 
 
 ## 🛠 System Architecture
@@ -137,71 +122,40 @@ K-디지털 트레이닝 3팀:IoRT 통합 스마트팩토리 혁신 자동입출
 |----------------|--------------|-------------|
 | api/promotions/ <br>:생성된 앨범 조회 <br>api/promotions/id <br>:앨범 상세 조회  |  <br>api/prompts/generate_logo <br>:로고 생성 <br>api/prompts/generate_poster <br>: 포스터 생성<br>prompts/generate_textandmusic <br>:사진을 분석하여 가사를 있는 음악 생성 <br>api/prompts/generate_textandmusic/{task_id} <br>:openAi가 생성한 노래의 id 조회  | api/user/signup <br>:회원가입  <br> api/user/signin <br>:로그인 |     
 
-## 🛠 FE 폴더 구조
-<table>
-  <tr>
-    <td><img src="" width="422" alt="폴더 구조"></td>
-    <td><img src="" width="599" alt="steps"></td>
-  </tr>
-</table>
-
-
-
 
 ## 👨‍💻 Members
-<table width="950px">
+
+<table>
     <thead>
+        <tr>
+            <th>Picture</th>
+            <th width="150" align="center"></th>
+            <th width="150" align="center"></th>
+            <th width="150" align="center"></th>
+            <th width="150" align="center"></th>
+            <th width="150" align="center"></th>
+        </tr>
     </thead>
-        <th>Picture</th>
-        <td width="100" align="center">
-          
-        </td>
-        <td width="100" align="center">
-   
-</td>
-<td width="100" align="center">
-   
-</td>
-<td width="100" align="center">
-    
-</td>
-<td width="100" align="center">
-    
-</td>
-</td>
-    </tr>
-    <tr>
-        <th>Name</th>
-        <td width="100" align="center">이천우</td>
-        <td width="100" align="center">김도현</td>
-        <td width="100" align="center">이승빈</td>
-        <td width="100" align="center">이용주</td>
-        <td width="100" align="center">이준원</td>
-    </tr>
-    <tr>
-        <th>Position</th>
-        <td width="150" align="center">
-            Leader<br>
-            Frontend<br>
-            Backend<br>
-
-        </td>
-        <td width="150" align="center">
-            Raspberry Pi<br>
-        </td>
-        <td width="150" align="center">
-            Raspberry Pi<br>
-        </td>
-        <td width="150" align="center">
-           Arduino<br>
-
-        </td>
-        <td width="150" align="center">
-            Arduino<br>
-
-        </td>
-    <tr>
-
-        </td>
+    <tbody>
+        <tr>
+            <th>Name</th>
+            <td align="center">이천우</td>
+            <td align="center">김도현</td>
+            <td align="center">이승빈</td>
+            <td align="center">이용주</td>
+            <td align="center">이준원</td>
+        </tr>
+        <tr>
+            <th>Position</th>
+            <td align="center">
+                Leader<br>
+                Frontend<br>
+                Backend
+            </td>
+            <td align="center">Raspberry Pi</td>
+            <td align="center">Raspberry Pi</td>
+            <td align="center">Arduino</td>
+            <td align="center">Arduino</td>
+        </tr>
+    </tbody>
 </table>
-<hr>
