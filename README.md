@@ -61,7 +61,7 @@ https://github.com/user-attachments/assets/f23cd588-63b1-45d2-934f-897d3b413874
 2️⃣출고페이지에서 출고할 제품을 선택하면 제품이 실제로 출고됩니다!
 <table>
 <tr>
-<td><img src="https://github.com/user-attachments/assets/74ddc449-72df-4980-a870-c177c7ceae40" alt="출고" width="830px"></td>
+<td><img src="https://github.com/user-attachments/assets/74ddc449-72df-4980-a870-c177c7ceae40" alt="출고" width="825px"></td>
 </tr>
 </table>
 <br>
