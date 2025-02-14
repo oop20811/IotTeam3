@@ -100,7 +100,7 @@ https://github.com/user-attachments/assets/73038ce5-12e0-4393-8dab-8f229fa9fa46
 
 <br>
 
-<img width="800" alt="System Architecture" src="https://github.com/user-attachments/assets/372995a5-d873-4c27-856e-b8ec1a593600" />
+<img width="850" alt="System Architecture" src="https://github.com/user-attachments/assets/372995a5-d873-4c27-856e-b8ec1a593600" />
 
 <br>
 <br>
