@@ -76,9 +76,8 @@ K-디지털 트레이닝 3팀:IoRT 통합 스마트팩토리 혁신 자동입출
 </table>
 
 ## 🛠 System Architecture
-
 <div align="center">
-
+<img width="800" alt="System Architecture" src="https://github.com/user-attachments/assets/83b99e54-897a-4837-a6c0-c8466f68a1ae" />
 <br>
 
 
